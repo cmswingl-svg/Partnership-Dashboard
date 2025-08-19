@@ -1,0 +1,946 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;}
+.MsoChpDefault
+	{font-family:"Aptos",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal>&lt;!DOCTYPE html&gt;</p>
+
+<p class=MsoNormal>&lt;html lang=&quot;en&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;head&gt;</p>
+
+<p class=MsoNormal>    &lt;meta charset=&quot;UTF8&quot;&gt;</p>
+
+<p class=MsoNormal>    &lt;meta name=&quot;viewport&quot;
+content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</p>
+
+<p class=MsoNormal>    &lt;title&gt;MLFC Partnership Program
+Dashboard&lt;/title&gt;</p>
+
+<p class=MsoNormal>    &lt;script
+src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;</p>
+
+<p class=MsoNormal>    &lt;script
+src=&quot;https://cdn.jsdelivr.net/npm/chart.js&quot;&gt;&lt;/script&gt;</p>
+
+<p class=MsoNormal>    &lt;link rel=&quot;preconnect&quot;
+href=&quot;https://fonts.googleapis.com&quot;&gt;</p>
+
+<p class=MsoNormal>    &lt;link rel=&quot;preconnect&quot;
+href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;</p>
+
+<p class=MsoNormal>    &lt;link
+href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap&quot;
+rel=&quot;stylesheet&quot;&gt;</p>
+
+<p class=MsoNormal>    &lt;!-- </p>
+
+<p class=MsoNormal>        Chosen Palette: ASU Branding</p>
+
+<p class=MsoNormal>        Primary: #8C1D40 (ASU Maroon), Secondary: #FFC627
+(ASU Gold), Accent: #00A3E0 (Blue), Neutral: #747474 (Gray)</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        Application Structure Plan: </p>
+
+<p class=MsoNormal>        The SPA is designed as an interactive dashboard to
+give faculty a quick, actionable overview. The structure flows from a
+high-level summary to specific details, encouraging exploration.</p>
+
+<p class=MsoNormal>        1. KPIs: Instant summary of the program's status.</p>
+
+<p class=MsoNormal>        2. Interactive Schedule: The core of the app. A
+filterable card view is more user-friendly than a table, allowing users to
+immediately find opportunities (&quot;Needs Presenter&quot;). This is the
+primary user task.</p>
+
+<p class=MsoNormal>        3. Data Insights: Charts provide context and a
+deeper understanding of the program's composition, answering questions like
+&quot;Which partners are most active?&quot; and &quot;What kinds of topics are
+we covering?&quot;.</p>
+
+<p class=MsoNormal>        4. Volunteer Hub: A clear call-to-action section
+that explains the process and showcases existing volunteers to encourage
+participation.</p>
+
+<p class=MsoNormal>        This thematic, task-oriented structure is chosen
+over a simple table to make the information more engaging and to guide users
+toward the key goal: filling open presentation slots.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        Visualization &amp; Content Choices:</p>
+
+<p class=MsoNormal>        - KPIs -&gt; Goal: Inform -&gt; Viz: Large Stats
+(HTML/CSS) -&gt; Interaction: None -&gt; Justification: Provides a quick,
+high-impact summary.</p>
+
+<p class=MsoNormal>        - Schedule -&gt; Goal: Organize/Inform -&gt; Viz:
+Interactive Cards (HTML/CSS) -&gt; Interaction: Filtering by status/partner
+-&gt; Justification: Allows users to easily find relevant information,
+especially open slots.</p>
+
+<p class=MsoNormal>        - Sessions by Partner -&gt; Goal: Compare -&gt; Viz:
+Bar Chart (Chart.js/Canvas) -&gt; Interaction: Tooltips -&gt; Justification:
+Best for comparing counts across distinct categories.</p>
+
+<p class=MsoNormal>        - Topic Sources -&gt; Goal: Compare (Composition)
+-&gt; Viz: Donut Chart (Chart.js/Canvas) -&gt; Interaction: Tooltips -&gt;
+Justification: Excellent for showing parts of a whole.</p>
+
+<p class=MsoNormal>        - Volunteer Process -&gt; Goal: Organize -&gt; Viz:
+Flowchart Diagram (HTML/CSS) -&gt; Interaction: None -&gt; Justification:
+Clearly illustrates a multi-step process without complex visuals.</p>
+
+<p class=MsoNormal>        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS
+used.</p>
+
+<p class=MsoNormal>    --&gt;</p>
+
+<p class=MsoNormal>    &lt;style&gt;</p>
+
+<p class=MsoNormal>        body { font-family: 'Inter', sans-serif; }</p>
+
+<p class=MsoNormal>        .chart-container {</p>
+
+<p class=MsoNormal>            position: relative;</p>
+
+<p class=MsoNormal>            width: 100%;</p>
+
+<p class=MsoNormal>            max-width: 500px;</p>
+
+<p class=MsoNormal>            margin-left: auto;</p>
+
+<p class=MsoNormal>            margin-right: auto;</p>
+
+<p class=MsoNormal>            height: 300px;</p>
+
+<p class=MsoNormal>            max-height: 350px;</p>
+
+<p class=MsoNormal>        }</p>
+
+<p class=MsoNormal>        @media (min-width: 768px) {</p>
+
+<p class=MsoNormal>            .chart-container { height: 320px; }</p>
+
+<p class=MsoNormal>        }</p>
+
+<p class=MsoNormal>        .filter-btn.active {</p>
+
+<p class=MsoNormal>            background-color: #8C1D40; /* ASU Maroon */</p>
+
+<p class=MsoNormal>            color: white;</p>
+
+<p class=MsoNormal>            font-weight: 600;</p>
+
+<p class=MsoNormal>        }</p>
+
+<p class=MsoNormal>    &lt;/style&gt;</p>
+
+<p class=MsoNormal>    &lt;script&gt;</p>
+
+<p class=MsoNormal>        tailwind.config = {</p>
+
+<p class=MsoNormal>            theme: {</p>
+
+<p class=MsoNormal>                extend: {</p>
+
+<p class=MsoNormal>                    colors: {</p>
+
+<p class=MsoNormal>                        'asu-maroon': '#8C1D40',</p>
+
+<p class=MsoNormal>                        'asu-gold': '#FFC627',</p>
+
+<p class=MsoNormal>                        'asu-blue': '#00A3E0',</p>
+
+<p class=MsoNormal>                        'asu-gray': '#747474',</p>
+
+<p class=MsoNormal>                    }</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>            }</p>
+
+<p class=MsoNormal>        }</p>
+
+<p class=MsoNormal>    &lt;/script&gt;</p>
+
+<p class=MsoNormal>&lt;/head&gt;</p>
+
+<p class=MsoNormal>&lt;body class=&quot;bg-stone-100 text-stone-800&quot;&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    &lt;main class=&quot;max-w-7xl mx-auto p-4
+md:p-8&quot;&gt;</p>
+
+<p class=MsoNormal>        &lt;header class=&quot;text-center mb-12&quot;&gt;</p>
+
+<p class=MsoNormal>            &lt;h1 class=&quot;text-4xl md:text-5xl
+font-bold text-asu-maroon&quot;&gt;MLFC Partnership Dashboard&lt;/h1&gt;</p>
+
+<p class=MsoNormal>            &lt;p class=&quot;mt-3 text-lg
+text-stone-600&quot;&gt;Explore upcoming sessions, find opportunities, and see
+our program's impact.&lt;/p&gt;</p>
+
+<p class=MsoNormal>        &lt;/header&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        &lt;section id=&quot;kpis&quot; class=&quot;grid
+grid-cols-2 md:grid-cols-4 gap-6 mb-12&quot;&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;p id=&quot;kpi-partnerships&quot;
+class=&quot;text-5xl font-bold text-asu-maroon&quot;&gt;0&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;p class=&quot;mt-2 font-medium
+text-stone-500&quot;&gt;Partnerships&lt;/p&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;p id=&quot;kpi-sessions&quot;
+class=&quot;text-5xl font-bold text-asu-maroon&quot;&gt;0&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;p class=&quot;mt-2 font-medium
+text-stone-500&quot;&gt;Total Sessions&lt;/p&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;p id=&quot;kpi-confirmed&quot;
+class=&quot;text-5xl font-bold text-asu-maroon&quot;&gt;0&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;p class=&quot;mt-2 font-medium
+text-stone-500&quot;&gt;Confirmed Presenters&lt;/p&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md text-center border-2 border-asu-gold&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;p id=&quot;kpi-needed&quot;
+class=&quot;text-5xl font-bold text-asu-gold&quot;&gt;0&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;p class=&quot;mt-2 font-medium
+text-stone-500&quot;&gt;Presenters Needed&lt;/p&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>        &lt;/section&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        &lt;section id=&quot;interactive-schedule&quot;
+class=&quot;mb-12&quot;&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;div class=&quot;md:flex justify-between
+items-center mb-6&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;div&gt;</p>
+
+<p class=MsoNormal>                        &lt;h2 class=&quot;text-2xl
+font-bold text-stone-800&quot;&gt;Upcoming Sessions&lt;/h2&gt;</p>
+
+<p class=MsoNormal>                        &lt;p class=&quot;text-stone-600
+mt-1&quot;&gt;Use the filters to find specific opportunities or view all
+scheduled events.&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                    &lt;div id=&quot;filters&quot;
+class=&quot;flex flex-wrap gap-2 mt-4 md:mt-0&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;button class=&quot;filter-btn
+active px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700
+transition&quot; data-filter=&quot;all&quot;&gt;All&lt;/button&gt;</p>
+
+<p class=MsoNormal>                        &lt;button class=&quot;filter-btn
+px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700 transition&quot;
+data-filter=&quot;needs&quot;&gt;Needs Presenter&lt;/button&gt;</p>
+
+<p class=MsoNormal>                        &lt;button class=&quot;filter-btn
+px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700 transition&quot;
+data-filter=&quot;confirmed&quot;&gt;Confirmed&lt;/button&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;div id=&quot;schedule-grid&quot;
+class=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;p class=&quot;loading-message
+text-stone-500 md:col-span-2 text-center py-8&quot;&gt;Loading live data from
+Google Sheet...&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>        &lt;/section&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        &lt;section id=&quot;insights&quot;
+class=&quot;mb-12&quot;&gt;</p>
+
+<p class=MsoNormal>             &lt;div class=&quot;text-center mb-8&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;h2 class=&quot;text-3xl font-bold
+text-stone-800&quot;&gt;Program Insights&lt;/h2&gt;</p>
+
+<p class=MsoNormal>                &lt;p class=&quot;mt-2 text-stone-600
+max-w-2xl mx-auto&quot;&gt;These visualizations provide a deeper look into the
+composition of our partnership program, from session distribution to topic
+origins.&lt;/p&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;div class=&quot;grid grid-cols-1
+lg:grid-cols-2 gap-8&quot;&gt;</p>
+
+<p class=MsoNormal>                &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;h3 class=&quot;text-xl font-bold
+text-center text-stone-800 mb-4&quot;&gt;Sessions by Partnership&lt;/h3&gt;</p>
+
+<p class=MsoNormal>                    &lt;div
+class=&quot;chart-container&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;canvas
+id=&quot;sessionsByPartnerChart&quot;&gt;&lt;/canvas&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;div class=&quot;bg-white p-6 rounded-lg
+shadow-md&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;h3 class=&quot;text-xl font-bold
+text-center text-stone-800 mb-4&quot;&gt;Session Topic Sources&lt;/h3&gt;</p>
+
+<p class=MsoNormal>                    &lt;div
+class=&quot;chart-container&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;canvas
+id=&quot;topicSourceChart&quot;&gt;&lt;/canvas&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>            &lt;/div&gt;</p>
+
+<p class=MsoNormal>        &lt;/section&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        &lt;section id=&quot;volunteer-hub&quot;&gt;</p>
+
+<p class=MsoNormal>             &lt;div class=&quot;bg-asu-maroon text-white
+p-8 rounded-lg shadow-lg&quot;&gt;</p>
+
+<p class=MsoNormal>                 &lt;div class=&quot;text-center
+mb-8&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;h2 class=&quot;text-3xl
+font-bold&quot;&gt;Become a Partner in Education&lt;/h2&gt;</p>
+
+<p class=MsoNormal>                    &lt;p class=&quot;mt-2 text-stone-200
+max-w-3xl mx-auto&quot;&gt;Your expertise is invaluable. By presenting a
+session, you directly impact the next generation of educators. Here’s how to
+get involved.&lt;/p&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                &lt;div class=&quot;grid grid-cols-1
+md:grid-cols-3 gap-8 items-start mb-12&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;div
+class=&quot;text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;div class=&quot;flex
+items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full
+mx-auto mb-4 text-2xl font-bold&quot;&gt;1&lt;/div&gt;</p>
+
+<p class=MsoNormal>                        &lt;h4 class=&quot;font-bold text-lg
+mb-2&quot;&gt;Review Opportunities&lt;/h4&gt;</p>
+
+<p class=MsoNormal>                        &lt;p
+class=&quot;text-stone-200&quot;&gt;Check the &quot;Needs Presenter&quot; tab
+in the schedule above or identify a new topic where you can
+contribute.&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                     &lt;div
+class=&quot;text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;div class=&quot;flex
+items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full
+mx-auto mb-4 text-2xl font-bold&quot;&gt;2&lt;/div&gt;</p>
+
+<p class=MsoNormal>                        &lt;h4 class=&quot;font-bold text-lg
+mb-2&quot;&gt;Visit the Volunteer Hub&lt;/h4&gt;</p>
+
+<p class=MsoNormal>                        &lt;p
+class=&quot;text-stone-200&quot;&gt;Add your name, contact info, and proposed
+topic to our shared sign-up sheet. This lets our coordinator know you're
+interested.&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                     &lt;div
+class=&quot;text-center&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;div class=&quot;flex
+items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full
+mx-auto mb-4 text-2xl font-bold&quot;&gt;3&lt;/div&gt;</p>
+
+<p class=MsoNormal>                        &lt;h4 class=&quot;font-bold text-lg
+mb-2&quot;&gt;Get Connected&lt;/h4&gt;</p>
+
+<p class=MsoNormal>                        &lt;p
+class=&quot;text-stone-200&quot;&gt;The Partnership Coordinator will reach out
+to align your expertise with a partner's needs and finalize the
+details.&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                &lt;div
+id=&quot;current-volunteers-section&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;h3 class=&quot;text-2xl font-bold
+text-center mb-4 text-asu-gold&quot;&gt;Current Volunteers&lt;/h3&gt;</p>
+
+<p class=MsoNormal>                    &lt;div id=&quot;volunteer-list&quot;
+class=&quot;grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto&quot;&gt;</p>
+
+<p class=MsoNormal>                        &lt;!-- Volunteer cards will be
+injected here --&gt;</p>
+
+<p class=MsoNormal>                        &lt;p class=&quot;loading-volunteers
+text-stone-200 md:col-span-2 text-center py-4&quot;&gt;Loading
+volunteers...&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    &lt;/div&gt;</p>
+
+<p class=MsoNormal>                &lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                 &lt;div class=&quot;text-center
+mt-12&quot;&gt;</p>
+
+<p class=MsoNormal>                    &lt;a href=&quot;#&quot;
+id=&quot;volunteer-hub-link&quot; class=&quot;inline-block bg-asu-gold
+text-asu-maroon font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-400
+transition shadow-lg&quot;&gt;Go to Volunteer Hub Sheet&lt;/a&gt;</p>
+
+<p class=MsoNormal>                 &lt;/div&gt;</p>
+
+<p class=MsoNormal>             &lt;/div&gt;</p>
+
+<p class=MsoNormal>        &lt;/section&gt;</p>
+
+<p class=MsoNormal>    &lt;/main&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>    &lt;script&gt;</p>
+
+<p class=MsoNormal>        //
+=================================================================</p>
+
+<p class=MsoNormal>        // --- IMPORTANT: PASTE YOUR GOOGLE SHEET URLs IN
+THE LINES BELOW ---</p>
+
+<p class=MsoNormal>        //
+=================================================================</p>
+
+<p class=MsoNormal>        const SCHEDULE_DATA_URL =
+'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMxqVM8Fgks5K4SOWuntC4DsjQbPAIuS-nlOs8i0a-YIKLjkNU8hmz2C02ZVLWW0z_2gF1cWNNIEat/pub?gid=0&amp;single=true&amp;output=csv';</p>
+
+<p class=MsoNormal>        const VOLUNTEER_DATA_URL =
+'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMxqVM8Fgks5K4SOWuntC4DsjQbPAIuS-nlOs8i0a-YIKLjkNU8hmz2C02ZVLWW0z_2gF1cWNNIEat/pub?gid=896484327&amp;single=true&amp;output=csv';</p>
+
+<p class=MsoNormal>        //
+=================================================================</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>        document.addEventListener('DOMContentLoaded', ()
+=&gt; {</p>
+
+<p class=MsoNormal>            const scheduleGrid =
+document.getElementById('schedule-grid');</p>
+
+<p class=MsoNormal>            const filtersContainer =
+document.getElementById('filters');</p>
+
+<p class=MsoNormal>            const volunteerList =
+document.getElementById('volunteer-list');</p>
+
+<p class=MsoNormal>            let scheduleData = []; </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            const csvToJSON = (csv) =&gt; {</p>
+
+<p class=MsoNormal>                const lines = csv.split('\n');</p>
+
+<p class=MsoNormal>                const result = [];</p>
+
+<p class=MsoNormal>                const headers = lines[0].split(',').map(h
+=&gt; h.trim().replace(/&quot;/g, ''));</p>
+
+<p class=MsoNormal>                for (let i = 1; i &lt; lines.length; i++) {</p>
+
+<p class=MsoNormal>                    if (!lines[i]) continue;</p>
+
+<p class=MsoNormal>                    const obj = {};</p>
+
+<p class=MsoNormal>                    const currentline = lines[i].split(',');</p>
+
+<p class=MsoNormal>                    for (let j = 0; j &lt; headers.length;
+j++) {</p>
+
+<p class=MsoNormal>                        obj[headers[j]] = currentline[j] ?
+currentline[j].trim().replace(/&quot;/g, '') : '';</p>
+
+<p class=MsoNormal>                    }</p>
+
+<p class=MsoNormal>                    result.push(obj);</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>                return result;</p>
+
+<p class=MsoNormal>            };</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            const renderSchedule = (filter = 'all') =&gt; {</p>
+
+<p class=MsoNormal>                scheduleGrid.innerHTML = '';</p>
+
+<p class=MsoNormal>                const filteredData =
+scheduleData.filter(item =&gt; {</p>
+
+<p class=MsoNormal>                    if (filter === 'all') return true;</p>
+
+<p class=MsoNormal>                    return item.status === filter;</p>
+
+<p class=MsoNormal>                });</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                if (filteredData.length === 0) {</p>
+
+<p class=MsoNormal>                    scheduleGrid.innerHTML = `&lt;p
+class=&quot;text-stone-500 md:col-span-2 text-center py-8&quot;&gt;No sessions
+match the current filter.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                    return;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                filteredData.forEach(item =&gt; {</p>
+
+<p class=MsoNormal>                    const card =
+document.createElement('div');</p>
+
+<p class=MsoNormal>                    const statusClass = item.status ===
+'needs' ? 'border-asu-gold' : 'border-asu-maroon';</p>
+
+<p class=MsoNormal>                    const statusText = item.status ===
+'needs' ? 'Needs Presenter' : 'Confirmed';</p>
+
+<p class=MsoNormal>                    const statusTextColor = item.status ===
+'needs' ? 'text-amber-600' : 'text-asu-maroon';</p>
+
+<p class=MsoNormal>                    const presenterInfo = item.presenter ?
+`&lt;p class=&quot;text-sm text-stone-500
+mt-1&quot;&gt;&lt;strong&gt;Presenter:&lt;/strong&gt;
+${item.presenter}&lt;/p&gt;` : `&lt;p class=&quot;text-sm font-bold
+${statusTextColor} mt-1&quot;&gt;This session needs a presenter.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                    card.className = `bg-stone-50 p-5
+rounded-lg border-l-4 ${statusClass} transition hover:shadow-lg`;</p>
+
+<p class=MsoNormal>                    card.innerHTML = `</p>
+
+<p class=MsoNormal>                        &lt;div class=&quot;flex
+justify-between items-start&quot;&gt;</p>
+
+<p class=MsoNormal>                            &lt;div&gt;</p>
+
+<p class=MsoNormal>                                &lt;p class=&quot;text-sm
+font-semibold text-asu-maroon&quot;&gt;${item.partner}&lt;/p&gt;</p>
+
+<p class=MsoNormal>                                &lt;h4 class=&quot;text-lg
+font-bold text-stone-800 mt-1&quot;&gt;${item.topic}&lt;/h4&gt;</p>
+
+<p class=MsoNormal>                            &lt;/div&gt;</p>
+
+<p class=MsoNormal>                            &lt;span class=&quot;text-xs
+font-bold ${statusTextColor} bg-opacity-20 ${item.status === 'needs' ?
+'bg-amber-100' : 'bg-red-50'} py-1 px-3
+rounded-full&quot;&gt;${statusText}&lt;/span&gt;</p>
+
+<p class=MsoNormal>                        &lt;/div&gt;</p>
+
+<p class=MsoNormal>                        &lt;div class=&quot;mt-4 border-t
+border-stone-200 pt-3&quot;&gt;</p>
+
+<p class=MsoNormal>                            &lt;p class=&quot;text-sm
+text-stone-500&quot;&gt;&lt;strong&gt;Date:&lt;/strong&gt;
+${item.date}&lt;/p&gt;</p>
+
+<p class=MsoNormal>                            ${presenterInfo}</p>
+
+<p class=MsoNormal>                            ${item.notes ? `&lt;p
+class=&quot;text-sm text-stone-500
+mt-1&quot;&gt;&lt;strong&gt;Notes:&lt;/strong&gt; ${item.notes}&lt;/p&gt;` :
+''}</p>
+
+<p class=MsoNormal>                        &lt;/div&gt;</p>
+
+<p class=MsoNormal>                    `;</p>
+
+<p class=MsoNormal>                    scheduleGrid.appendChild(card);</p>
+
+<p class=MsoNormal>                });</p>
+
+<p class=MsoNormal>            };</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            const renderVolunteers = (data) =&gt; {</p>
+
+<p class=MsoNormal>                volunteerList.innerHTML = '';</p>
+
+<p class=MsoNormal>                if (!data || data.length === 0) {</p>
+
+<p class=MsoNormal>                    volunteerList.innerHTML = `&lt;p
+class=&quot;text-stone-200 md:col-span-2 text-center py-4&quot;&gt;No
+volunteers have signed up yet.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                    return;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>                data.forEach(volunteer =&gt; {</p>
+
+<p class=MsoNormal>                    const card =
+document.createElement('div');</p>
+
+<p class=MsoNormal>                    card.className = 'bg-white/10 p-4
+rounded-lg';</p>
+
+<p class=MsoNormal>                    card.innerHTML = `</p>
+
+<p class=MsoNormal>                        &lt;p class=&quot;font-bold text-lg
+text-white&quot;&gt;${volunteer.name}&lt;/p&gt;</p>
+
+<p class=MsoNormal>                        &lt;p
+class=&quot;text-stone-300&quot;&gt;Expertise: ${volunteer.topic}&lt;/p&gt;</p>
+
+<p class=MsoNormal>                    `;</p>
+
+<p class=MsoNormal>                    volunteerList.appendChild(card);</p>
+
+<p class=MsoNormal>                });</p>
+
+<p class=MsoNormal>            };</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            filtersContainer.addEventListener('click', (e)
+=&gt; {</p>
+
+<p class=MsoNormal>                if (e.target.tagName === 'BUTTON') {</p>
+
+<p class=MsoNormal>                   
+document.querySelectorAll('.filter-btn').forEach(btn =&gt;
+btn.classList.remove('active'));</p>
+
+<p class=MsoNormal>                    e.target.classList.add('active');</p>
+
+<p class=MsoNormal>                    const filter = e.target.dataset.filter;</p>
+
+<p class=MsoNormal>                    renderSchedule(filter);</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>            });</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            const updateKPIs = (data) =&gt; {</p>
+
+<p class=MsoNormal>                const partners = new Set(data.map(s =&gt;
+s.partner));</p>
+
+<p class=MsoNormal>               
+document.getElementById('kpi-partnerships').textContent = partners.size;</p>
+
+<p class=MsoNormal>               
+document.getElementById('kpi-sessions').textContent = data.length;</p>
+
+<p class=MsoNormal>                const confirmedCount = data.filter(s =&gt;
+s.status === 'confirmed').length;</p>
+
+<p class=MsoNormal>                const neededCount = data.filter(s =&gt;
+s.status === 'needs').length;</p>
+
+<p class=MsoNormal>               
+document.getElementById('kpi-confirmed').textContent = confirmedCount;</p>
+
+<p class=MsoNormal>               
+document.getElementById('kpi-needed').textContent = neededCount;</p>
+
+<p class=MsoNormal>            };</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            const createCharts = (data) =&gt; {</p>
+
+<p class=MsoNormal>                const tooltipTitleCallback = (tooltipItems)
+=&gt; {</p>
+
+<p class=MsoNormal>                    const item = tooltipItems[0];</p>
+
+<p class=MsoNormal>                    let label =
+item.chart.data.labels[item.dataIndex];</p>
+
+<p class=MsoNormal>                    return Array.isArray(label) ?
+label.join(' ') : label;</p>
+
+<p class=MsoNormal>                };</p>
+
+<p class=MsoNormal>                const chartOptions = { responsive: true,
+maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: {
+font: { family: 'Inter' } } }, tooltip: { callbacks: { title:
+tooltipTitleCallback } } } };</p>
+
+<p class=MsoNormal>                </p>
+
+<p class=MsoNormal>                const partnerCounts = data.reduce((acc,
+session) =&gt; {</p>
+
+<p class=MsoNormal>                    acc[session.partner] =
+(acc[session.partner] || 0) + 1;</p>
+
+<p class=MsoNormal>                    return acc;</p>
+
+<p class=MsoNormal>                }, {});</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                new
+Chart(document.getElementById('sessionsByPartnerChart').getContext('2d'), {</p>
+
+<p class=MsoNormal>                    type: 'bar',</p>
+
+<p class=MsoNormal>                    data: { labels:
+Object.keys(partnerCounts), datasets: [{ label: 'Number of Sessions', data:
+Object.values(partnerCounts), backgroundColor: ['#8C1D40', '#00A3E0',
+'#747474'] }] },</p>
+
+<p class=MsoNormal>                    options: { ...chartOptions, scales: { y:
+{ beginAtZero: true, ticks: { stepSize: 1 } } } }</p>
+
+<p class=MsoNormal>                });</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>                const topicSources = { 'District Request':
+1, 'Course Alignment': 2, 'Faculty Volunteer': 1 };</p>
+
+<p class=MsoNormal>                new
+Chart(document.getElementById('topicSourceChart').getContext('2d'), {</p>
+
+<p class=MsoNormal>                    type: 'doughnut',</p>
+
+<p class=MsoNormal>                    data: { labels:
+Object.keys(topicSources), datasets: [{ data: Object.values(topicSources),
+backgroundColor: ['#FFC627', '#8C1D40', '#00A3E0'], borderColor: '#FFFFFF',
+borderWidth: 2 }] },</p>
+
+<p class=MsoNormal>                    options: chartOptions</p>
+
+<p class=MsoNormal>                });</p>
+
+<p class=MsoNormal>            };</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            async function loadScheduleData() {</p>
+
+<p class=MsoNormal>                if
+(SCHEDULE_DATA_URL.startsWith('PASTE_YOUR')) {</p>
+
+<p class=MsoNormal>                    scheduleGrid.innerHTML = `&lt;p
+class=&quot;text-amber-700 font-semibold md:col-span-2 text-center
+py-8&quot;&gt;Configuration needed: Please paste your Schedule Google Sheet URL
+into the script.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                    return;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>                try {</p>
+
+<p class=MsoNormal>                    const response = await
+fetch(SCHEDULE_DATA_URL);</p>
+
+<p class=MsoNormal>                    if (!response.ok) throw new
+Error('Network response was not ok.');</p>
+
+<p class=MsoNormal>                    const csvData = await response.text();</p>
+
+<p class=MsoNormal>                    scheduleData = csvToJSON(csvData);</p>
+
+<p class=MsoNormal>                    renderSchedule();</p>
+
+<p class=MsoNormal>                    updateKPIs(scheduleData);</p>
+
+<p class=MsoNormal>                    createCharts(scheduleData);</p>
+
+<p class=MsoNormal>                } catch (error) {</p>
+
+<p class=MsoNormal>                    console.error('Failed to load schedule
+data:', error);</p>
+
+<p class=MsoNormal>                    scheduleGrid.innerHTML = `&lt;p
+class=&quot;text-red-500 md:col-span-2 text-center py-8&quot;&gt;Error: Could
+not load schedule data. Please check the URL and sharing settings.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>            }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            async function loadVolunteerData() {</p>
+
+<p class=MsoNormal>                if
+(VOLUNTEER_DATA_URL.startsWith('PASTE_YOUR')) {</p>
+
+<p class=MsoNormal>                    volunteerList.innerHTML = `&lt;p
+class=&quot;text-amber-300 font-semibold md:col-span-2 text-center
+py-4&quot;&gt;Configuration needed: Please paste your Volunteers Google Sheet
+URL into the script.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                    return;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>                try {</p>
+
+<p class=MsoNormal>                    const response = await
+fetch(VOLUNTEER_DATA_URL);</p>
+
+<p class=MsoNormal>                    if (!response.ok) throw new
+Error('Network response was not ok.');</p>
+
+<p class=MsoNormal>                    const csvData = await response.text();</p>
+
+<p class=MsoNormal>                    const volunteerData =
+csvToJSON(csvData);</p>
+
+<p class=MsoNormal>                    renderVolunteers(volunteerData);</p>
+
+<p class=MsoNormal>                } catch (error) {</p>
+
+<p class=MsoNormal>                    console.error('Failed to load volunteer
+data:', error);</p>
+
+<p class=MsoNormal>                    volunteerList.innerHTML = `&lt;p
+class=&quot;text-red-300 md:col-span-2 text-center py-4&quot;&gt;Error: Could
+not load volunteer data. Please check the URL and sharing settings.&lt;/p&gt;`;</p>
+
+<p class=MsoNormal>                }</p>
+
+<p class=MsoNormal>            }</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>            loadScheduleData();</p>
+
+<p class=MsoNormal>            loadVolunteerData();</p>
+
+<p class=MsoNormal>        });</p>
+
+<p class=MsoNormal>    &lt;/script&gt;</p>
+
+<p class=MsoNormal>&lt;/body&gt;</p>
+
+<p class=MsoNormal>&lt;/html&gt;</p>
+
+</div>
+
+</body>
+
+</html>
