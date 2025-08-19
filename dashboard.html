@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLFC Partnership Program Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: ASU Branding
+        Primary: #8C1D40 (ASU Maroon), Secondary: #FFC627 (ASU Gold), Accent: #00A3E0 (Blue), Neutral: #747474 (Gray)
+
+        Application Structure Plan: 
+        The SPA is designed as an interactive dashboard to give faculty a quick, actionable overview. The structure flows from a high-level summary to specific details, encouraging exploration.
+        1. KPIs: Instant summary of the program's status.
+        2. Interactive Schedule: The core of the app. A filterable card view is more user-friendly than a table, allowing users to immediately find opportunities ("Needs Presenter"). This is the primary user task.
+        3. Data Insights: Charts provide context and a deeper understanding of the program's composition, answering questions like "Which partners are most active?" and "What kinds of topics are we covering?".
+        4. Volunteer Hub: A clear call-to-action section that explains the process and showcases existing volunteers to encourage participation.
+        This thematic, task-oriented structure is chosen over a simple table to make the information more engaging and to guide users toward the key goal: filling open presentation slots.
+
+        Visualization & Content Choices:
+        - KPIs -> Goal: Inform -> Viz: Large Stats (HTML/CSS) -> Interaction: None -> Justification: Provides a quick, high-impact summary.
+        - Schedule -> Goal: Organize/Inform -> Viz: Interactive Cards (HTML/CSS) -> Interaction: Filtering by status/partner -> Justification: Allows users to easily find relevant information, especially open slots.
+        - Sessions by Partner -> Goal: Compare -> Viz: Bar Chart (Chart.js/Canvas) -> Interaction: Tooltips -> Justification: Best for comparing counts across distinct categories.
+        - Topic Sources -> Goal: Compare (Composition) -> Viz: Donut Chart (Chart.js/Canvas) -> Interaction: Tooltips -> Justification: Excellent for showing parts of a whole.
+        - Volunteer Process -> Goal: Organize -> Viz: Flowchart Diagram (HTML/CSS) -> Interaction: None -> Justification: Clearly illustrates a multi-step process without complex visuals.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 320px; }
+        }
+        .filter-btn.active {
+            background-color: #8C1D40; /* ASU Maroon */
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'asu-maroon': '#8C1D40',
+                        'asu-gold': '#FFC627',
+                        'asu-blue': '#00A3E0',
+                        'asu-gray': '#747474',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-asu-maroon">MLFC Partnership Dashboard</h1>
+            <p class="mt-3 text-lg text-stone-600">Explore upcoming sessions, find opportunities, and see our program's impact.</p>
+        </header>
+
+        <section id="kpis" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <p id="kpi-partnerships" class="text-5xl font-bold text-asu-maroon">0</p>
+                <p class="mt-2 font-medium text-stone-500">Partnerships</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <p id="kpi-sessions" class="text-5xl font-bold text-asu-maroon">0</p>
+                <p class="mt-2 font-medium text-stone-500">Total Sessions</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <p id="kpi-confirmed" class="text-5xl font-bold text-asu-maroon">0</p>
+                <p class="mt-2 font-medium text-stone-500">Confirmed Presenters</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center border-2 border-asu-gold">
+                <p id="kpi-needed" class="text-5xl font-bold text-asu-gold">0</p>
+                <p class="mt-2 font-medium text-stone-500">Presenters Needed</p>
+            </div>
+        </section>
+
+        <section id="interactive-schedule" class="mb-12">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="md:flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-800">Upcoming Sessions</h2>
+                        <p class="text-stone-600 mt-1">Use the filters to find specific opportunities or view all scheduled events.</p>
+                    </div>
+                    <div id="filters" class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                        <button class="filter-btn active px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700 transition" data-filter="all">All</button>
+                        <button class="filter-btn px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700 transition" data-filter="needs">Needs Presenter</button>
+                        <button class="filter-btn px-4 py-2 text-sm rounded-full bg-stone-200 text-stone-700 transition" data-filter="confirmed">Confirmed</button>
+                    </div>
+                </div>
+                <div id="schedule-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Session cards will be injected here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="insights" class="mb-12">
+             <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-stone-800">Program Insights</h2>
+                <p class="mt-2 text-stone-600 max-w-2xl mx-auto">These visualizations provide a deeper look into the composition of our partnership program, from session distribution to topic origins.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-center text-stone-800 mb-4">Sessions by Partnership</h3>
+                    <div class="chart-container">
+                        <canvas id="sessionsByPartnerChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-center text-stone-800 mb-4">Session Topic Sources</h3>
+                    <div class="chart-container">
+                        <canvas id="topicSourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="volunteer-hub">
+             <div class="bg-asu-maroon text-white p-8 rounded-lg shadow-lg">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold">Become a Partner in Education</h2>
+                    <p class="mt-2 text-stone-200 max-w-3xl mx-auto">Your expertise is invaluable. By presenting a session, you directly impact the next generation of educators. Here’s how to get involved.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-8">
+                    <div class="text-center">
+                        <div class="flex items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full mx-auto mb-4 text-2xl font-bold">1</div>
+                        <h4 class="font-bold text-lg mb-2">Review Opportunities</h4>
+                        <p class="text-stone-200">Check the "Needs Presenter" tab in the schedule above or identify a new topic where you can contribute.</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="flex items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full mx-auto mb-4 text-2xl font-bold">2</div>
+                        <h4 class="font-bold text-lg mb-2">Visit the Volunteer Hub</h4>
+                        <p class="text-stone-200">Add your name, contact info, and proposed topic to our shared sign-up sheet. This lets our coordinator know you're interested.</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="flex items-center justify-center bg-white text-asu-maroon w-16 h-16 rounded-full mx-auto mb-4 text-2xl font-bold">3</div>
+                        <h4 class="font-bold text-lg mb-2">Get Connected</h4>
+                        <p class="text-stone-200">The Partnership Coordinator will reach out to align your expertise with a partner's needs and finalize the details.</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-8">
+                    <a href="#" class="inline-block bg-asu-gold text-asu-maroon font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-400 transition shadow-lg">Go to Volunteer Hub Sheet</a>
+                 </div>
+             </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scheduleData = [
+                { id: 1, partner: 'Path2Teach', date: '9/15/2025', topic: 'Classroom Management', presenter: null, status: 'needs', notes: 'District wants interactive strategies.' },
+                { id: 2, partner: 'ASU Partnership', date: '9/22/2025', topic: 'Co-Teaching Models', presenter: 'Dr. Jane Smith', status: 'confirmed', notes: 'Aligns with EDU 510.' },
+                { id: 3, partner: 'District X Cohort', date: '10/5/2025', topic: 'Reading Interventions', presenter: 'Dr. Alan Grant', status: 'confirmed', notes: 'From volunteer hub.' },
+                { id: 4, partner: 'Path2Teach', date: '10/20/2025', topic: 'Family Communication', presenter: null, status: 'needs', notes: '' }
+            ];
+
+            const volunteerData = [
+                { name: 'Dr. Alan Grant', topic: 'Hands-on Reading Interventions for K-3' },
+                { name: 'Prof. Ellie Sattler', topic: 'Culturally Responsive Pedagogy' }
+            ];
+            
+            const scheduleGrid = document.getElementById('schedule-grid');
+            const filtersContainer = document.getElementById('filters');
+
+            const renderSchedule = (filter = 'all') => {
+                scheduleGrid.innerHTML = '';
+                
+                const filteredData = scheduleData.filter(item => {
+                    if (filter === 'all') return true;
+                    return item.status === filter;
+                });
+
+                if (filteredData.length === 0) {
+                    scheduleGrid.innerHTML = `<p class="text-stone-500 md:col-span-2 text-center py-8">No sessions match the current filter.</p>`;
+                    return;
+                }
+
+                filteredData.forEach(item => {
+                    const card = document.createElement('div');
+                    const statusClass = item.status === 'needs' ? 'border-asu-gold' : 'border-asu-maroon';
+                    const statusText = item.status === 'needs' ? 'Needs Presenter' : 'Confirmed';
+                    const statusTextColor = item.status === 'needs' ? 'text-amber-600' : 'text-asu-maroon';
+                    const presenterInfo = item.presenter ? `<p class="text-sm text-stone-500 mt-1"><strong>Presenter:</strong> ${item.presenter}</p>` : `<p class="text-sm font-bold ${statusTextColor} mt-1">This session needs a presenter.</p>`;
+
+                    card.className = `bg-stone-50 p-5 rounded-lg border-l-4 ${statusClass} transition hover:shadow-lg`;
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-asu-maroon">${item.partner}</p>
+                                <h4 class="text-lg font-bold text-stone-800 mt-1">${item.topic}</h4>
+                            </div>
+                            <span class="text-xs font-bold ${statusTextColor} bg-opacity-20 ${item.status === 'needs' ? 'bg-amber-100' : 'bg-red-50'} py-1 px-3 rounded-full">${statusText}</span>
+                        </div>
+                        <div class="mt-4 border-t border-stone-200 pt-3">
+                            <p class="text-sm text-stone-500"><strong>Date:</strong> ${item.date}</p>
+                            ${presenterInfo}
+                            ${item.notes ? `<p class="text-sm text-stone-500 mt-1"><strong>Notes:</strong> ${item.notes}</p>` : ''}
+                        </div>
+                    `;
+                    scheduleGrid.appendChild(card);
+                });
+            };
+
+            filtersContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    const filter = e.target.dataset.filter;
+                    renderSchedule(filter);
+                }
+            });
+
+            const updateKPIs = () => {
+                const partners = new Set(scheduleData.map(s => s.partner));
+                document.getElementById('kpi-partnerships').textContent = partners.size;
+                document.getElementById('kpi-sessions').textContent = scheduleData.length;
+                const confirmedCount = scheduleData.filter(s => s.status === 'confirmed').length;
+                const neededCount = scheduleData.filter(s => s.status === 'needs').length;
+                document.getElementById('kpi-confirmed').textContent = confirmedCount;
+                document.getElementById('kpi-needed').textContent = neededCount;
+            };
+
+            const createCharts = () => {
+                const tooltipTitleCallback = (tooltipItems) => {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    return Array.isArray(label) ? label.join(' ') : label;
+                };
+
+                const chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Inter' } } },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                };
+                
+                const partnerCounts = scheduleData.reduce((acc, session) => {
+                    acc[session.partner] = (acc[session.partner] || 0) + 1;
+                    return acc;
+                }, {});
+
+                new Chart(document.getElementById('sessionsByPartnerChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(partnerCounts),
+                        datasets: [{
+                            label: 'Number of Sessions',
+                            data: Object.values(partnerCounts),
+                            backgroundColor: ['#8C1D40', '#00A3E0', '#747474'],
+                        }]
+                    },
+                    options: { ...chartOptions, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
+
+                const topicSources = { 'District Request': 1, 'Course Alignment': 2, 'Faculty Volunteer': 1 };
+                new Chart(document.getElementById('topicSourceChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(topicSources),
+                        datasets: [{
+                            data: Object.values(topicSources),
+                            backgroundColor: ['#FFC627', '#8C1D40', '#00A3E0'],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: chartOptions
+                });
+            };
+
+            updateKPIs();
+            renderSchedule();
+            createCharts();
+        });
+    </script>
+</body>
+</html>
