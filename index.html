@@ -165,7 +165,7 @@
                 </div>
 
                  <div class="text-center mt-12">
-                    <a href="https://docs.google.com/spreadsheets/d/16Q4B5Sv8RCWfmucK52acKdP_YB5S3rJLnIbHj7iFmnc/edit?usp=sharing" id="volunteer-hub-link" class="inline-block bg-asu-gold text-asu-maroon font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-400 transition shadow-lg">Go to Volunteer Hub Sheet</a>
+                    <a href="#" id="volunteer-hub-link" class="inline-block bg-asu-gold text-asu-maroon font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-400 transition shadow-lg">Go to Volunteer Hub Sheet</a>
                  </div>
              </div>
         </section>
@@ -184,6 +184,7 @@
             const filtersContainer = document.getElementById('filters');
             const volunteerList = document.getElementById('volunteer-list');
             let scheduleData = []; 
+            let topicSourceChartInstance = null; // To hold the chart instance
 
             const csvToJSON = (csv) => {
                 const lines = csv.split('\n');
@@ -283,6 +284,7 @@
                 };
                 const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter' } } }, tooltip: { callbacks: { title: tooltipTitleCallback } } } };
                 
+                // Sessions by Partner Chart (Bar)
                 const partnerCounts = data.reduce((acc, session) => {
                     acc[session.partner] = (acc[session.partner] || 0) + 1;
                     return acc;
@@ -294,10 +296,29 @@
                     options: { ...chartOptions, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
                 });
 
-                const topicSources = { 'District Request': 1, 'Course Alignment': 2, 'Faculty Volunteer': 1 };
-                new Chart(document.getElementById('topicSourceChart').getContext('2d'), {
+                // Session Topic Sources Chart (Doughnut) - DYNAMIC
+                const topicSourceCounts = data.reduce((acc, session) => {
+                    if (session.source) { // Only count if a source is provided
+                        acc[session.source] = (acc[session.source] || 0) + 1;
+                    }
+                    return acc;
+                }, {});
+
+                if (topicSourceChartInstance) {
+                    topicSourceChartInstance.destroy(); // Clear old chart before drawing new one
+                }
+                
+                topicSourceChartInstance = new Chart(document.getElementById('topicSourceChart').getContext('2d'), {
                     type: 'doughnut',
-                    data: { labels: Object.keys(topicSources), datasets: [{ data: Object.values(topicSources), backgroundColor: ['#FFC627', '#8C1D40', '#00A3E0'], borderColor: '#FFFFFF', borderWidth: 2 }] },
+                    data: { 
+                        labels: Object.keys(topicSourceCounts), 
+                        datasets: [{ 
+                            data: Object.values(topicSourceCounts), 
+                            backgroundColor: ['#FFC627', '#8C1D40', '#00A3E0', '#747474'], 
+                            borderColor: '#FFFFFF', 
+                            borderWidth: 2 
+                        }] 
+                    },
                     options: chartOptions
                 });
             };
@@ -344,4 +365,3 @@
     </script>
 </body>
 </html>
-
